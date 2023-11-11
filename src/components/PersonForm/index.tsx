@@ -1,9 +1,9 @@
 import { Autocomplete, TextField } from "@mui/material";
 import { useFormikContext } from "formik";
-import { Schema } from "../validation/validation-schema";
-import { BIRTHDAY, COUNTRY, NAME, SURNAME } from "../constants/fields";
+import { Schema } from "../../validation/validation-schema";
+import { BIRTHDAY, COUNTRY, NAME, SURNAME } from "../../constants/fields";
 import { PersonFormContainer } from "./styles";
-import { DatePicker } from "@mui/x-date-pickers";
+import { DatePicker } from "../DatePicker";
 
 const PersonForm = () => {
   const {
@@ -15,7 +15,6 @@ const PersonForm = () => {
     touched,
     errors,
   } = useFormikContext<Schema>();
-  console.log(touched.birthday, errors.birthday);
 
   return (
     <PersonFormContainer>
@@ -56,23 +55,14 @@ const PersonForm = () => {
         )}
       />
       <DatePicker
-        disableFuture
+        name="birthday"
         label={BIRTHDAY}
         value={values.birthday}
-        format="dd/MM/yyyy"
-        onChange={(value) => setFieldValue("birthday", value)}
-        slotProps={{
-          textField: {
-            error: touched.birthday ? Boolean(errors.birthday) : false,
-            onBlur: (e) => {
-              setTouched({
-                birthday: true,
-              });
-              handleBlur(e);
-            },
-            helperText: touched.birthday && <>{errors.birthday}</>,
-          },
-        }}
+        isTouched={touched.birthday}
+        error={errors.birthday}
+        setFieldValue={setFieldValue}
+        setTouched={setTouched}
+        handleBlur={handleBlur}
       />
     </PersonFormContainer>
   );
