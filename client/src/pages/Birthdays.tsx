@@ -12,7 +12,7 @@ import { useCountriesAPI } from "../services/country";
 const Birthdays = () => {
   //const dispatch = useAppDispatch();
   const birthdays = useAppSelector(selectBirthdays);
-  const { getBirthdays } = useBirthdaysAPI();
+  const { getBirthdays, createBirthday } = useBirthdaysAPI();
   const { getCountries } = useCountriesAPI();
   const formik = useFormik({
     initialValues: {
@@ -22,7 +22,9 @@ const Birthdays = () => {
       birthday: new Date("01-01-1970"),
     },
     validationSchema: ValidationSchema,
-    onSubmit: (value: Birthday) => {},
+    onSubmit: (value: Birthday) => {
+      createBirthday(value);
+    },
   });
 
   useEffect(() => {
