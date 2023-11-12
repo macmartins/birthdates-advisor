@@ -73,7 +73,9 @@ const PersonForm = () => {
         setTouched={setTouched}
         handleBlur={handleBlur}
       />
-      <Button onClick={submitForm}>Save</Button>
+      <Button variant="outlined" onClick={submitForm}>
+        Save
+      </Button>
     </PersonFormContainer>
   );
 };

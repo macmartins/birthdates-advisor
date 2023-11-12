@@ -8,6 +8,7 @@ import { selectBirthdays } from "../store/birthdays/birthdaysSlice";
 import { useEffect } from "react";
 import { useBirthdaysAPI } from "../services/birthday";
 import { useCountriesAPI } from "../services/country";
+import BirthdaysTable from "../components/BirthdaysTable";
 
 const Birthdays = () => {
   //const dispatch = useAppDispatch();
@@ -39,8 +40,9 @@ const Birthdays = () => {
   return (
     <FormikProvider value={formik}>
       <h2>Intive - FDV Exercise</h2>
-      <Box sx={{ display: "flex" }}>
+      <Box sx={{ display: "flex", gap: 5 }}>
         <PersonForm />
+        <BirthdaysTable rows={birthdays} />
       </Box>
     </FormikProvider>
   );
