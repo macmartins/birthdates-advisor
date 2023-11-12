@@ -3,7 +3,6 @@ const Birthday = require("../models/Birthday");
 const getBirthdays = async (req, res) => {
   await Birthday.find()
     .then(async (result) => {
-      const count = await Birthday.countDocuments();
       res.status(200).json({
         result,
       });

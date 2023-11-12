@@ -2,16 +2,18 @@ import { useFormik, FormikProvider } from "formik";
 import { ValidationSchema } from "../validation/validation-schema";
 import PersonForm from "../components/PersonForm";
 import { Box } from "@mui/material";
-import {
-  useCreateBirthdayMutation,
-  useGetBirthdaysQuery,
-} from "../services/birthday";
 import Birthday from "../types/Birthday";
+import { useAppSelector } from "../store";
+import { selectBirthdays } from "../store/birthdays/birthdaysSlice";
 import { useEffect } from "react";
+import { useBirthdaysAPI } from "../services/birthday";
+import { useCountriesAPI } from "../services/country";
 
 const Birthdays = () => {
-  const [createBirthday] = useCreateBirthdayMutation();
-
+  //const dispatch = useAppDispatch();
+  const birthdays = useAppSelector(selectBirthdays);
+  const { getBirthdays } = useBirthdaysAPI();
+  const { getCountries } = useCountriesAPI();
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -20,18 +22,17 @@ const Birthdays = () => {
       birthday: new Date("01-01-1970"),
     },
     validationSchema: ValidationSchema,
-    onSubmit: (value: Birthday) => {
-      createBirthday({
-        ...value,
-        birthday: value.birthday.toISOString(),
-      });
-    },
+    onSubmit: (value: Birthday) => {},
   });
 
-  const { data } = useGetBirthdaysQuery(undefined);
   useEffect(() => {
-    console.log(data);
-  }, [data]);
+    getBirthdays();
+    getCountries();
+  }, []);
+
+  useEffect(() => {
+    console.log(birthdays);
+  }, [birthdays]);
 
   return (
     <FormikProvider value={formik}>

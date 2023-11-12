@@ -1,11 +1,16 @@
-import { Autocomplete, Button, TextField } from "@mui/material";
+import { Button, TextField } from "@mui/material";
 import { useFormikContext } from "formik";
 import { Schema } from "../../validation/validation-schema";
 import { BIRTHDAY, COUNTRY, NAME, SURNAME } from "../../constants/fields";
 import { PersonFormContainer } from "./styles";
 import { DatePicker } from "../DatePicker";
+import { useAppSelector } from "../../store";
+import { selectCountries } from "../../store/countries/countrySlice";
+import { useMemo } from "react";
+import Autocomplete from "../Autocomplete";
 
 const PersonForm = () => {
+  const countries = useAppSelector(selectCountries);
   const {
     values,
     handleChange,
@@ -16,6 +21,15 @@ const PersonForm = () => {
     errors,
     submitForm,
   } = useFormikContext<Schema>();
+
+  const options = useMemo(
+    () =>
+      countries.map((country) => ({
+        label: country.name.common,
+        value: country._id,
+      })),
+    [countries]
+  );
 
   return (
     <PersonFormContainer>
@@ -40,20 +54,14 @@ const PersonForm = () => {
         helperText={touched.surname && errors.surname}
       />
       <Autocomplete
-        fullWidth
-        id="country"
+        name="country"
         value={values.country}
-        onChange={(e, newValue) => setFieldValue("country", newValue)}
-        onBlur={handleBlur}
-        options={["test"]}
-        renderInput={(params) => (
-          <TextField
-            {...params}
-            label={COUNTRY}
-            error={touched.country && Boolean(errors.country)}
-            helperText={touched.country && errors.country}
-          />
-        )}
+        options={options}
+        label={COUNTRY}
+        isTouched={touched.country}
+        error={errors.country}
+        handleBlur={handleBlur}
+        setFieldValue={setFieldValue}
       />
       <DatePicker
         name="birthday"

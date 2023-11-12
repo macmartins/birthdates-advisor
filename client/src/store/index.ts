@@ -1,15 +1,19 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { birthdayApi } from "../services/birthday";
+import birthdaysSlice from "./birthdays/birthdaysSlice";
+import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
+import countriesSlice from "./countries/countrySlice";
 
 export const store = configureStore({
   reducer: {
-    [birthdayApi.reducerPath]: birthdayApi.reducer,
+    birthdays: birthdaysSlice,
+    countries: countriesSlice,
   },
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(birthdayApi.middleware),
 });
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
 export type RootState = ReturnType<typeof store.getState>;
 // Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
 export type AppDispatch = typeof store.dispatch;
+
+export const useAppDispatch: () => AppDispatch = useDispatch;
+export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;

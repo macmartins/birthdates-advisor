@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const birthdayRoute = require("./routes/birthdays.js");
+const birthdaysRoute = require("./routes/birthdays.js");
+const countriesRoute = require("./routes/countries.js");
 const path = require("path");
 require("dotenv").config();
 
@@ -17,7 +18,8 @@ mongoose
 
 app.use(express.static(path.join(__dirname, "build")));
 app.use(express.json());
-app.use("/api/birthdays", birthdayRoute);
+app.use("/api/birthdays", birthdaysRoute);
+app.use("/api/countries", countriesRoute);
 
 app.get("*/", (req, res) => {
   res.sendFile(path.join(`${__dirname}/build/index.html`));
