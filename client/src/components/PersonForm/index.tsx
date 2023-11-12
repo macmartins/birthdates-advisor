@@ -1,4 +1,4 @@
-import { Autocomplete, TextField } from "@mui/material";
+import { Autocomplete, Button, TextField } from "@mui/material";
 import { useFormikContext } from "formik";
 import { Schema } from "../../validation/validation-schema";
 import { BIRTHDAY, COUNTRY, NAME, SURNAME } from "../../constants/fields";
@@ -14,6 +14,7 @@ const PersonForm = () => {
     setTouched,
     touched,
     errors,
+    submitForm,
   } = useFormikContext<Schema>();
 
   return (
@@ -64,6 +65,7 @@ const PersonForm = () => {
         setTouched={setTouched}
         handleBlur={handleBlur}
       />
+      <Button onClick={submitForm}>Save</Button>
     </PersonFormContainer>
   );
 };

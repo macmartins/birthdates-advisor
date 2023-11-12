@@ -1,7 +1,8 @@
 const express = require("express");
-const { getBirthdays } = require("../controllers/birthdays");
+const { getBirthdays, createBirthday } = require("../controllers/birthdays");
 const router = express.Router();
 
 router.get("/", getBirthdays);
+router.post("/", createBirthday);
 
 module.exports = router;

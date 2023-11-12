@@ -14,4 +14,15 @@ const getBirthdays = async (req, res) => {
     });
 };
 
-module.exports = { getBirthdays };
+const createBirthday = async (req, res) => {
+  try {
+    const birthday = new Birthday(req.body.data);
+    birthday.save();
+    res.status(200).json({ _id: birthday._id });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ msg: error });
+  }
+};
+
+module.exports = { getBirthdays, createBirthday };

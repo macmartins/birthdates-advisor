@@ -1,6 +1,7 @@
 import * as Yup from "yup";
 import {
   INVALID_DATE,
+  MAX_DATE,
   REQUIRED_BIRTHDAY,
   REQUIRED_COUNTRY,
   REQUIRED_NAME,
@@ -15,7 +16,7 @@ export const ValidationSchema = Yup.object({
   birthday: Yup.date()
     .required(REQUIRED_BIRTHDAY)
     .typeError(INVALID_DATE)
-    .max(new Date(), "NONONONO"),
+    .max(new Date(), MAX_DATE),
 });
 
 export type Schema = InferType<typeof ValidationSchema>;
