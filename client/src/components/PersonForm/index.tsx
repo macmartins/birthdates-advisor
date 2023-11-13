@@ -8,9 +8,16 @@ import { useAppSelector } from "../../store";
 import { selectCountries } from "../../store/countries/countrySlice";
 import { useMemo } from "react";
 import Autocomplete from "../Autocomplete";
+import {
+  selectBirthdays,
+  selectSelectedBirthday,
+} from "../../store/birthdays/birthdaysSlice";
 
 const PersonForm = () => {
   const countries = useAppSelector(selectCountries);
+  const birthdays = useAppSelector(selectBirthdays);
+  const selectedBirthdayID = useAppSelector(selectSelectedBirthday);
+
   const {
     values,
     handleChange,
@@ -21,6 +28,49 @@ const PersonForm = () => {
     errors,
     submitForm,
   } = useFormikContext<Schema>();
+
+  const selectedBirthday = useMemo(
+    () => birthdays.find((birthday) => birthday._id === selectedBirthdayID),
+    [birthdays, selectedBirthdayID]
+  );
+
+  const selectedBirthdayDate = useMemo(
+    () => new Date(selectedBirthday?.birthday ?? ""),
+    [selectedBirthday]
+  );
+
+  const selectedBirthdayAge = useMemo(() => {
+    const baseDate = new Date();
+    const birthdayToNow = new Date(selectedBirthdayDate);
+    birthdayToNow.setFullYear(baseDate.getFullYear());
+    if (birthdayToNow.getTime() < new Date().getTime()) {
+      baseDate.setFullYear(baseDate.getFullYear() + 1);
+    }
+    return baseDate.getFullYear() - selectedBirthdayDate.getFullYear();
+  }, [selectedBirthdayDate]);
+
+  const selectedBDCountry = useMemo(
+    () =>
+      countries.find((country) => country._id === selectedBirthday?.country),
+    [selectedBirthday, countries]
+  );
+
+  const legend = useMemo(
+    () => `Hello ${selectedBirthday?.name} from ${
+      selectedBDCountry?.name.common
+    },
+          on ${selectedBirthdayDate.getDate()} of 
+          ${selectedBirthdayDate.toLocaleString("en-EN", {
+            month: "long",
+          })} 
+          you will have ${selectedBirthdayAge} years`,
+    [
+      selectedBirthday,
+      selectedBirthdayDate,
+      selectedBDCountry,
+      selectedBirthdayAge,
+    ]
+  );
 
   const options = useMemo(
     () =>
@@ -76,6 +126,7 @@ const PersonForm = () => {
       <Button variant="outlined" onClick={submitForm}>
         Save
       </Button>
+      {selectedBirthday ? <div>{legend}</div> : null}
     </PersonFormContainer>
   );
 };

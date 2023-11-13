@@ -5,6 +5,8 @@ import { RootState } from "..";
 
 export interface BirthdaysState {
   data: BirthdayAPI[];
+  selectedBirthday?: string;
+  isSubmitted?: boolean;
 }
 
 const initialState: BirthdaysState = {
@@ -21,12 +23,18 @@ export const birthdaysSlice = createSlice({
     addBirthday: (state, action: PayloadAction<BirthdayAPI>) => {
       state.data.push(action.payload);
     },
+    setSelectedBirthday: (state, action: PayloadAction<string | undefined>) => {
+      state.selectedBirthday = action.payload;
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { addBirthday, setBirthdays } = birthdaysSlice.actions;
+export const { addBirthday, setBirthdays, setSelectedBirthday } =
+  birthdaysSlice.actions;
 
 export const selectBirthdays = (state: RootState) => state.birthdays.data;
+export const selectSelectedBirthday = (state: RootState) =>
+  state.birthdays.selectedBirthday;
 
 export default birthdaysSlice.reducer;

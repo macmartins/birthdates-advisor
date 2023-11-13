@@ -3,23 +3,25 @@ import {
   Table,
   TableBody,
   TableCell,
-  TableContainer,
   TableHead,
   TableRow,
 } from "@mui/material";
 import { BirthdayAPI } from "../../types/Birthday";
-import { useAppSelector } from "../../store";
+import { useAppDispatch, useAppSelector } from "../../store";
 import { selectCountries } from "../../store/countries/countrySlice";
 import { format } from "date-fns";
+import { setSelectedBirthday } from "../../store/birthdays/birthdaysSlice";
+import { BodyTableRow, TableContainer } from "./styles";
 
 interface Props {
   rows: BirthdayAPI[];
 }
 
 const BirthdaysTable = ({ rows }: Props) => {
+  const dispatch = useAppDispatch();
   const countries = useAppSelector(selectCountries);
   return (
-    <TableContainer component={Paper} sx={{ flex: 2 }}>
+    <TableContainer component={Paper}>
       <Table>
         <TableHead>
           <TableRow>
@@ -28,9 +30,12 @@ const BirthdaysTable = ({ rows }: Props) => {
             <TableCell>Birthday</TableCell>
           </TableRow>
         </TableHead>
-        <TableBody>
+        <TableBody sx={{ cursor: "pointer" }}>
           {rows.map((row) => (
-            <TableRow key={row._id}>
+            <BodyTableRow
+              key={row._id}
+              onClick={() => dispatch(setSelectedBirthday(row._id))}
+            >
               <TableCell>
                 {row.name} {row.surname}
               </TableCell>
@@ -41,7 +46,7 @@ const BirthdaysTable = ({ rows }: Props) => {
               <TableCell>
                 {format(new Date(row.birthday ?? null), "dd/MM/yyyy")}
               </TableCell>
-            </TableRow>
+            </BodyTableRow>
           ))}
         </TableBody>
       </Table>

@@ -20,28 +20,29 @@ export const useBirthdaysAPI = () => {
       .catch((error) => alert("Error fetching birthdays: " + error));
   };
 
-  const createBirthday = (birthday: Birthday) => {
-    const birthdayApi = {
-      ...birthday,
-      birthday: birthday.birthday.toISOString(),
-    };
-    axios
-      .post<PostBirthdayResponse>(
+  const createBirthday = async (birthday: Birthday) => {
+    try {
+      const birthdayApi = {
+        ...birthday,
+        birthday: birthday.birthday.toISOString(),
+      };
+      const request = await axios.post<PostBirthdayResponse>(
         "/api/birthdays",
         {
           data: birthdayApi,
         },
         DEFAULT_CONFIG
-      )
-      .then((response) => {
-        dispatch(
-          addBirthday({
-            ...birthdayApi,
-            _id: response.data._id,
-          })
-        );
-      })
-      .catch((error) => alert("Error creating birthday: " + error));
+      );
+      dispatch(
+        addBirthday({
+          ...birthdayApi,
+          _id: request.data._id,
+        })
+      );
+      return request.data._id;
+    } catch (error) {
+      alert("Error creating birthday: " + error);
+    }
   };
 
   return { getBirthdays, createBirthday };
