@@ -1,11 +1,17 @@
-import { Autocomplete as MUIAutocomplete, TextField } from "@mui/material";
+import {
+  AutocompleteProps,
+  Autocomplete as MUIAutocomplete,
+  TextField,
+} from "@mui/material";
 import { useMemo } from "react";
 import SelectOption from "../../types/SelectOption";
 import { FormikErrors } from "formik";
 
-interface Props {
-  options: SelectOption[];
-  value: string;
+interface Props
+  extends Omit<
+    AutocompleteProps<SelectOption, false, false, false>,
+    "renderInput"
+  > {
   setFieldValue: (field: string, value?: string) => void;
   handleBlur: (e: React.FocusEvent<unknown, Element>) => void;
   label: string;
@@ -23,9 +29,10 @@ const Autocomplete = ({
   label,
   isTouched,
   error,
+  ...rest
 }: Props) => {
   const optionValue = useMemo(() => {
-    const option = options.find((option) => option.value === value);
+    const option = options.find((option) => option.value === value?.value);
     return option ? option : null;
   }, [value, options]);
 
@@ -48,6 +55,7 @@ const Autocomplete = ({
           helperText={isTouched && error}
         />
       )}
+      {...rest}
     />
   );
 };

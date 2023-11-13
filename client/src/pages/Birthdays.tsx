@@ -1,11 +1,12 @@
 import { useFormik, FormikProvider } from "formik";
 import { ValidationSchema } from "../validation/validation-schema";
 import PersonForm from "../components/PersonForm";
-import { Box } from "@mui/material";
+import { Box, CircularProgress } from "@mui/material";
 import Birthday, { BirthdayAPI } from "../types/Birthday";
 import { useAppDispatch, useAppSelector } from "../store";
 import {
   selectBirthdays,
+  selectIsBirthdaysLoading,
   setSelectedBirthday,
 } from "../store/birthdays/birthdaysSlice";
 import { useCallback, useEffect } from "react";
@@ -13,10 +14,12 @@ import { useBirthdaysAPI } from "../services/birthday";
 import { useCountriesAPI } from "../services/country";
 import BirthdaysTable from "../components/BirthdaysTable";
 import { DEFAULT_BIRTHDAY } from "../constants/fields";
+import { BirthdaysContainer } from "./styles";
 
 const Birthdays = () => {
   const dispatch = useAppDispatch();
   const birthdays = useAppSelector(selectBirthdays);
+  const isBirthdaysLoading = useAppSelector(selectIsBirthdaysLoading);
   const { getBirthdays, createBirthday } = useBirthdaysAPI();
   const { getCountries } = useCountriesAPI();
 
@@ -75,10 +78,16 @@ const Birthdays = () => {
   return (
     <FormikProvider value={formik}>
       <h2>Intive - FDV Exercise</h2>
-      <Box sx={{ display: "flex", gap: 5 }}>
+      <BirthdaysContainer>
         <PersonForm />
-        <BirthdaysTable rows={birthdays} />
-      </Box>
+        <Box sx={{ flex: 2 }}>
+          {isBirthdaysLoading ? (
+            <CircularProgress />
+          ) : (
+            <BirthdaysTable rows={birthdays} />
+          )}
+        </Box>
+      </BirthdaysContainer>
     </FormikProvider>
   );
 };

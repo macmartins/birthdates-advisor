@@ -5,12 +5,14 @@ import { RootState } from "..";
 
 export interface BirthdaysState {
   data: BirthdayAPI[];
+  isLoading: boolean;
   selectedBirthday?: string;
   isSubmitted?: boolean;
 }
 
 const initialState: BirthdaysState = {
   data: [],
+  isLoading: false,
 };
 
 export const birthdaysSlice = createSlice({
@@ -26,15 +28,25 @@ export const birthdaysSlice = createSlice({
     setSelectedBirthday: (state, action: PayloadAction<string | undefined>) => {
       state.selectedBirthday = action.payload;
     },
+    setIsBirthdaysLoading: (state, action: PayloadAction<boolean>) => {
+      console.log(action.payload);
+      state.isLoading = action.payload;
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { addBirthday, setBirthdays, setSelectedBirthday } =
-  birthdaysSlice.actions;
+export const {
+  addBirthday,
+  setBirthdays,
+  setSelectedBirthday,
+  setIsBirthdaysLoading,
+} = birthdaysSlice.actions;
 
 export const selectBirthdays = (state: RootState) => state.birthdays.data;
 export const selectSelectedBirthday = (state: RootState) =>
   state.birthdays.selectedBirthday;
+export const selectIsBirthdaysLoading = (state: RootState) =>
+  state.birthdays.isLoading;
 
 export default birthdaysSlice.reducer;

@@ -5,7 +5,10 @@ import { BIRTHDAY, COUNTRY, NAME, SURNAME } from "../../constants/fields";
 import { PersonFormContainer } from "./styles";
 import { DatePicker } from "../DatePicker";
 import { useAppSelector } from "../../store";
-import { selectCountries } from "../../store/countries/countrySlice";
+import {
+  selectCountries,
+  selectIsCountriesLoading,
+} from "../../store/countries/countrySlice";
 import { useMemo } from "react";
 import Autocomplete from "../Autocomplete";
 import {
@@ -14,6 +17,7 @@ import {
 } from "../../store/birthdays/birthdaysSlice";
 
 const PersonForm = () => {
+  const isCountriesLoading = useAppSelector(selectIsCountriesLoading);
   const countries = useAppSelector(selectCountries);
   const birthdays = useAppSelector(selectBirthdays);
   const selectedBirthdayID = useAppSelector(selectSelectedBirthday);
@@ -105,13 +109,14 @@ const PersonForm = () => {
       />
       <Autocomplete
         name="country"
-        value={values.country}
+        value={{ label: "", value: values.country }}
         options={options}
         label={COUNTRY}
         isTouched={touched.country}
         error={errors.country}
         handleBlur={handleBlur}
         setFieldValue={setFieldValue}
+        loading={isCountriesLoading}
       />
       <DatePicker
         name="birthday"

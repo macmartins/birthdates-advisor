@@ -5,10 +5,12 @@ import CountryAPI from "../../types/Country";
 
 export interface CountriesState {
   data: CountryAPI[];
+  isLoading: boolean;
 }
 
 const initialState: CountriesState = {
   data: [],
+  isLoading: false,
 };
 
 export const countriesSlice = createSlice({
@@ -18,12 +20,17 @@ export const countriesSlice = createSlice({
     setCountries: (state, action: PayloadAction<CountryAPI[]>) => {
       state.data = action.payload;
     },
+    setIsCountriesLoading: (state, action: PayloadAction<boolean>) => {
+      state.isLoading = action.payload;
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { setCountries } = countriesSlice.actions;
+export const { setCountries, setIsCountriesLoading } = countriesSlice.actions;
 
 export const selectCountries = (state: RootState) => state.countries.data;
+export const selectIsCountriesLoading = (state: RootState) =>
+  state.countries.isLoading;
 
 export default countriesSlice.reducer;
