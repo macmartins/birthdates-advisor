@@ -13,10 +13,19 @@ const getBirthdays = async (req, res) => {
     });
 };
 
+const insertBirthday = async (birthdayObj) => {
+  const birthday = new Birthday(birthdayObj);
+  await birthday.save();
+  return birthday;
+};
+
+const removeBirthday = async (id) => {
+  await Birthday.findOneAndDelete({ _id: id });
+};
+
 const createBirthday = async (req, res) => {
   try {
-    const birthday = new Birthday(req.body.data);
-    birthday.save();
+    const birthday = await insertBirthday();
     res.status(200).json({ _id: birthday._id });
   } catch (error) {
     console.log(error);
@@ -24,4 +33,9 @@ const createBirthday = async (req, res) => {
   }
 };
 
-module.exports = { getBirthdays, createBirthday };
+module.exports = {
+  getBirthdays,
+  createBirthday,
+  insertBirthday,
+  removeBirthday,
+};
