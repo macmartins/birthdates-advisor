@@ -29,7 +29,6 @@ export const birthdaysSlice = createSlice({
       state.selectedBirthday = action.payload;
     },
     setIsBirthdaysLoading: (state, action: PayloadAction<boolean>) => {
-      console.log(action.payload);
       state.isLoading = action.payload;
     },
   },
