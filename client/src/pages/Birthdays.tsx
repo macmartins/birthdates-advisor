@@ -16,7 +16,11 @@ import BirthdaysTable from "../components/BirthdaysTable";
 import { DEFAULT_BIRTHDAY } from "../constants/fields";
 import { BirthdaysContainer } from "./styles";
 
-const Birthdays = () => {
+interface Props {
+  isRevisited?: boolean;
+}
+
+const Birthdays = ({ isRevisited }: Props) => {
   const dispatch = useAppDispatch();
   const birthdays = useAppSelector(selectBirthdays);
   const isBirthdaysLoading = useAppSelector(selectIsBirthdaysLoading);
@@ -71,7 +75,9 @@ const Birthdays = () => {
   });
 
   useEffect(() => {
-    getBirthdays();
+    if (isRevisited) {
+      getBirthdays();
+    }
     getCountries();
   }, []);
 

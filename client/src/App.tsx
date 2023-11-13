@@ -5,6 +5,9 @@ import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import Birthdays from "./pages/Birthdays";
 import { ThemeProvider, createTheme } from "@mui/material";
 import { ThemeProvider as StyledThemeProvider } from "styled-components";
+import ProtectedRoute from "./components/ProtectedRoute";
+import { useEffect } from "react";
+import { PASSWORD, PASSWORD_VALUE } from "./constants/auth";
 
 const theme = createTheme({
   palette: {
@@ -17,18 +20,32 @@ const theme = createTheme({
   },
 });
 
-const App = () => (
-  <LocalizationProvider dateAdapter={AdapterDateFns}>
-    <ThemeProvider theme={theme}>
-      <StyledThemeProvider theme={theme}>
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Birthdays />} />
-          </Routes>
-        </BrowserRouter>
-      </StyledThemeProvider>
-    </ThemeProvider>
-  </LocalizationProvider>
-);
+const App = () => {
+  useEffect(() => {
+    localStorage.setItem(PASSWORD, PASSWORD_VALUE);
+  }, []);
+
+  return (
+    <LocalizationProvider dateAdapter={AdapterDateFns}>
+      <ThemeProvider theme={theme}>
+        <StyledThemeProvider theme={theme}>
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<Birthdays />} />
+              <Route
+                path="/revisited"
+                element={
+                  <ProtectedRoute>
+                    <Birthdays isRevisited />
+                  </ProtectedRoute>
+                }
+              />
+            </Routes>
+          </BrowserRouter>
+        </StyledThemeProvider>
+      </ThemeProvider>
+    </LocalizationProvider>
+  );
+};
 
 export default App;
