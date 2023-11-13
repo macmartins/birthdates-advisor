@@ -12,7 +12,7 @@ export const useCountriesAPI = () => {
       .then((response: { data: { result: CountryAPI[] } }) => {
         dispatch(setCountries(response.data.result));
       })
-      .catch((error) => alert("Error fetching countries: " + error));
+      .catch((error) => console.error("Error fetching countries: " + error));
   };
 
   return { getCountries };

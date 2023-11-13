@@ -2,7 +2,7 @@ import axios from "axios";
 import Birthday, { BirthdayAPI } from "../types/Birthday";
 import { useAppDispatch } from "../store";
 import { addBirthday, setBirthdays } from "../store/birthdays/birthdaysSlice";
-import { DEFAULT_CONFIG } from "./constants";
+import { DEFAULT_CONFIG } from "../constants/services";
 
 interface PostBirthdayResponse {
   _id: string;
@@ -17,7 +17,7 @@ export const useBirthdaysAPI = () => {
       .then((response: { data: { result: BirthdayAPI[] } }) => {
         dispatch(setBirthdays(response.data.result));
       })
-      .catch((error) => alert("Error fetching birthdays: " + error));
+      .catch((error) => console.error("Error fetching birthdays: " + error));
   };
 
   const createBirthday = async (birthday: Birthday) => {
@@ -41,7 +41,7 @@ export const useBirthdaysAPI = () => {
       );
       return request.data._id;
     } catch (error) {
-      alert("Error creating birthday: " + error);
+      console.error("Error creating birthday: " + error);
     }
   };
 

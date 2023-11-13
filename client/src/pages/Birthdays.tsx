@@ -12,6 +12,7 @@ import { useCallback, useEffect } from "react";
 import { useBirthdaysAPI } from "../services/birthday";
 import { useCountriesAPI } from "../services/country";
 import BirthdaysTable from "../components/BirthdaysTable";
+import { DEFAULT_BIRTHDAY } from "../constants/fields";
 
 const Birthdays = () => {
   const dispatch = useAppDispatch();
@@ -22,7 +23,6 @@ const Birthdays = () => {
   const getClosestBirthday = useCallback(
     (newBirthday: BirthdayAPI) => {
       const newBirthdays = [...birthdays, newBirthday];
-      console.log(newBirthdays);
       const sortedBirthdays = newBirthdays.slice().sort((a, b) => {
         let results;
         const aDate = new Date(a.birthday ?? null);
@@ -53,7 +53,7 @@ const Birthdays = () => {
       name: "",
       surname: "",
       country: "",
-      birthday: new Date("01-01-1970"),
+      birthday: new Date(DEFAULT_BIRTHDAY),
     },
     validationSchema: ValidationSchema,
     onSubmit: async (value: Birthday) => {
@@ -71,10 +71,6 @@ const Birthdays = () => {
     getBirthdays();
     getCountries();
   }, []);
-
-  useEffect(() => {
-    console.log(birthdays);
-  }, [birthdays]);
 
   return (
     <FormikProvider value={formik}>
