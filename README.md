@@ -1,27 +1,64 @@
-# React + TypeScript + Vite
+# Birthdays React Challenge
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is a birthday form and listing, using the MERN stack.
 
-Currently, two official plugins are available:
+_This is a challenge for an interview._
+<br>
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Dependencies
 
-## Expanding the ESLint configuration
+- NPM
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Setup
 
-- Configure the top-level `parserOptions` property like this:
+### **Repository**
 
-```js
-   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-   },
-```
+To setup this application, let's first clone the repository using the following command:
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+`git clone https://github.com/macmartins/movie-list.git`
+
+### **Server**
+
+After we have a local copy, let's handle the server setup:
+
+1. Open a CLI window, navigate to the server folder using: `cd server`
+2. Then, install the server dependencies using: `npm install`
+3. Then, copy the `.env.local` file as `.env` so the environment variables are setup
+4. Then to run the server do: `npm start`
+
+After a few seconds, you should see something like this:
+
+![Server running in a CLI](/assets/images/serverCLI.png)
+
+Nice! The server is working! You should be able to access the server in the localhost using the default port, for example: <a href="http:localhost:3001/api" target="_blank">http:localhost:3001/api</a>
+
+### **Client**
+
+1. Open another CLI window, navigate to the client folder using: `cd client`
+2. Then, install the app dependencies using: `npm install`
+3. Then, copy the `.env.local` file as `.env` so the environment variables are setup
+4. Lastly, run the client app using: `npm start`
+
+After a few seconds, you should see something like this:
+
+![Client running in a CLI](/assets/images/clientCLI.png)
+
+Great! The application is up and running!
+Just click or paste the URL and start using the application!
+
+#### **Frontend Extras**
+
+1. When you first arrive at the app, you'll be redirected to the homepage. Also, there's an /revisited route that'll load saved birthdays from the DB. However, this is only available if the stored roles has an 'admin' role.<br><br>
+For demo purposes, whenever you enter the application it automatically stores that role in the local storage.<br>
+If you want to test being "kicked out" of the revisit page, you can manually delete or change the roles from the local storage and refresh the page, the app will then redirect you to the homepage.
+2. The table items are clickable, and whenever you click on one of them it renders the birthday legend according to that record.
+3. There's an simple dropdown to change the app's language, which uses the i18next library.
+4. All form fields are required, and some of them have extra requirements. This is all informed whenever submitting the form or un-focusing the fields.
+5. Whenever there's an asynchronous action (Submitting form, loading data) a loading spinner is shown.
+
+#### **Backend Extras**
+**Note**: From here on out, assume the base url is /api to avoid repetition.
+1. Besides the GET /countries and GET /birthdays, there's also a POST, PUT and DELETE for /countries, but they are protected. If you attempt to make a request to these endpoints, it'll return 401 (Unauthorized).<br>
+To be able to make the request fully, you need to make a call to /login which will return a token. Use this token for the "Authorization" header in those requests, prefixed with "Bearer " like so (Using Postman, for example):
+![POST /countries example](/assets/images/authorizationExample.png)
+2. There's also a test suite for birthdays. To run them, simply do `npm test` on the server CLI.
