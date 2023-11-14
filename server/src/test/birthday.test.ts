@@ -1,7 +1,7 @@
-import mongoose, { HydratedDocument } from "mongoose";
+import mongoose, { HydratedDocument, mongo } from "mongoose";
 import Birthday, { IBirthday } from "../models/Birthday";
 import { insertBirthday, removeBirthday } from "../controllers/birthdays";
-import { describe, expect, it } from "@jest/globals";
+import { afterAll, describe, expect, it } from "@jest/globals";
 require("dotenv").config();
 
 const testBirthday: IBirthday = {
@@ -27,5 +27,12 @@ describe("Birthday TestCases", () => {
     await removeBirthday(newBirthday?._id);
     const countAfterRemoval = await Birthday.countDocuments();
     expect(countAfterRemoval).toBe(countBeforeRemoval - 1);
+    const foundObject = await Birthday.exists({ _id: newBirthday?._id });
+    expect(foundObject).toBeFalsy();
   });
+});
+
+afterAll((done) => {
+  mongoose.connection.close();
+  done();
 });
