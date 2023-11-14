@@ -10,6 +10,7 @@ import { useEffect, useMemo } from "react";
 import { PASSWORD, PASSWORD_VALUE } from "./constants/auth";
 import { useTranslation } from "react-i18next";
 import { muiLanguages } from "./utils/language";
+import { PRIMARY, SECONDARY } from "./constants/colors";
 
 const App = () => {
   const { i18n } = useTranslation();
@@ -25,10 +26,10 @@ const App = () => {
         {
           palette: {
             primary: {
-              main: "rgb(88, 135, 182)",
+              main: PRIMARY,
             },
             secondary: {
-              main: "rgba(88, 135, 182, 0.5)",
+              main: SECONDARY,
             },
           },
         },

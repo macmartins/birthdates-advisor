@@ -13,6 +13,7 @@ import { format } from "date-fns";
 import { setSelectedBirthday } from "../../store/birthdays/birthdaysSlice";
 import { BodyTableRow, TableContainer } from "./styles";
 import { useTranslation } from "react-i18next";
+import { DATE_FORMAT } from "../../constants/fields";
 
 interface Props {
   rows: BirthdayAPI[];
@@ -53,7 +54,7 @@ const BirthdaysTable = ({ rows }: Props) => {
                   .common ?? null}
               </TableCell>
               <TableCell>
-                {format(new Date(row.birthday ?? null), "dd/MM/yyyy")}
+                {format(new Date(row.birthday ?? null), DATE_FORMAT)}
               </TableCell>
             </BodyTableRow>
           ))}

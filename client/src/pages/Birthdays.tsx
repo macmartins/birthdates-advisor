@@ -13,7 +13,7 @@ import { useCallback, useEffect } from "react";
 import { useBirthdaysAPI } from "../services/birthday";
 import { useCountriesAPI } from "../services/country";
 import BirthdaysTable from "../components/BirthdaysTable";
-import { DEFAULT_BIRTHDAY } from "../constants/fields";
+import { INITIAL_VALUE } from "../constants/fields";
 import { GridContainer, LanguageContainer } from "./styles";
 import LanguageDropdown from "../components/LanguageDropdown";
 import { useTranslation } from "react-i18next";
@@ -58,15 +58,8 @@ const Birthdays = ({ isRevisited }: Props) => {
     [birthdays]
   );
 
-  const formik = useFormik({
-    initialValues: {
-      name: "",
-      surname: "",
-      country: "",
-      birthday: new Date(DEFAULT_BIRTHDAY),
-    },
-    validationSchema: ValidationSchema(t),
-    onSubmit: async (value: Birthday) => {
+  const handleSubmit = useCallback(
+    async (value: Birthday) => {
       const id = await createBirthday(value);
       const closestBirthday = getClosestBirthday({
         ...value,
@@ -75,6 +68,13 @@ const Birthdays = ({ isRevisited }: Props) => {
       });
       dispatch(setSelectedBirthday(closestBirthday._id));
     },
+    [createBirthday, dispatch, getClosestBirthday]
+  );
+
+  const formik = useFormik({
+    initialValues: INITIAL_VALUE,
+    validationSchema: ValidationSchema(t),
+    onSubmit: handleSubmit,
   });
 
   useEffect(() => {
@@ -89,7 +89,7 @@ const Birthdays = ({ isRevisited }: Props) => {
       <LanguageContainer>
         <LanguageDropdown />
       </LanguageContainer>
-      <h2>Intive - FDV Exercise</h2>
+      <h2>{t("title")}</h2>
       <GridContainer container gap={2}>
         <Grid item xs={12} sm={4}>
           <PersonForm />

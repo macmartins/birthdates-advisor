@@ -21,7 +21,9 @@ const LanguageDropdown = () => {
   return (
     <Select onChange={handleChange} value={i18n.language} size="small">
       {languages.map((lang) => (
-        <MenuItem value={lang.value}>{lang.label}</MenuItem>
+        <MenuItem key={lang.value} value={lang.value}>
+          {lang.label}
+        </MenuItem>
       ))}
     </Select>
   );

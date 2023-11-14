@@ -7,5 +7,6 @@
   "required": " é um campo obrigatório",
   "invalidDate": "Data inválida",
   "maxDate": "Data não pode ser superior a hoje",
-  "legend": "Olá {{name}} de {{country}}, a {{day}} de {{month}} vais ter {{age}} anos"
+  "legend": "Olá {{name}} de {{country}}, a {{day}} de {{month}} vais ter {{age}} anos",
+  "title": "Intive - FDV Exercício"
 }

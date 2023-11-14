@@ -1,5 +1,6 @@
 import { DatePicker as MuiDatePicker } from "@mui/x-date-pickers";
 import { FormikErrors, FormikTouched } from "formik";
+import { DATE_FORMAT } from "../../constants/fields";
 
 interface Props {
   label: string;
@@ -26,7 +27,7 @@ export const DatePicker = ({
     disableFuture
     label={label}
     value={value}
-    format="dd/MM/yyyy"
+    format={DATE_FORMAT}
     onChange={(value) => setFieldValue(name, value)}
     slotProps={{
       textField: {
