@@ -41,7 +41,7 @@ const Autocomplete = ({
       fullWidth
       id={name}
       value={optionValue}
-      onChange={(e, newValue) => setFieldValue(name, newValue?.value)}
+      onChange={(_e, newValue) => setFieldValue(name, newValue?.value)}
       onBlur={handleBlur}
       options={options}
       isOptionEqualToValue={(option, value) => {

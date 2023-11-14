@@ -1,0 +1,11 @@
+{
+  "name": "Name",
+  "surname": "Surname",
+  "country": "Country",
+  "birthday": "Birthday",
+  "save": "Save",
+  "required": " is a required field",
+  "invalidDate": "Invalid date",
+  "maxDate": "Date can't be higher than today",
+  "legend": "Hello {{name}} from {{country}}, on {{day}} of {{month}} you will have {{age}} years"
+}
