@@ -1,6 +1,8 @@
-const Birthday = require("../models/Birthday");
+import { Request, Response } from "express";
+import Birthday, { IBirthday } from "../models/Birthday";
+import { Types } from "mongoose";
 
-const getBirthdays = async (req, res) => {
+export const getBirthdays = async (req: Request, res: Response) => {
   await Birthday.find()
     .then(async (result) => {
       res.status(200).json({
@@ -13,29 +15,22 @@ const getBirthdays = async (req, res) => {
     });
 };
 
-const insertBirthday = async (birthdayObj) => {
+export const insertBirthday = async (birthdayObj: IBirthday) => {
   const birthday = new Birthday(birthdayObj);
   await birthday.save();
   return birthday;
 };
 
-const removeBirthday = async (id) => {
+export const removeBirthday = async (id?: Types.ObjectId) => {
   await Birthday.findOneAndDelete({ _id: id });
 };
 
-const createBirthday = async (req, res) => {
+export const createBirthday = async (req: Request, res: Response) => {
   try {
-    const birthday = await insertBirthday();
+    const birthday = await insertBirthday(req.body.data);
     res.status(200).json({ _id: birthday._id });
   } catch (error) {
     console.log(error);
     res.status(500).json({ msg: error });
   }
-};
-
-module.exports = {
-  getBirthdays,
-  createBirthday,
-  insertBirthday,
-  removeBirthday,
 };

@@ -1,11 +1,12 @@
-const express = require("express");
-const {
-  getCountries,
+import express from "express";
+import {
   createCountry,
-  updateCountry,
   deleteCountry,
-} = require("../controllers/countries");
-const { validate } = require("../controllers/auth");
+  getCountries,
+  updateCountry,
+} from "../controllers/countries";
+import { validate } from "../controllers/auth";
+
 const router = express.Router();
 
 router.get("/", getCountries);
@@ -13,4 +14,4 @@ router.post("/", validate, createCountry);
 router.put("/:id", validate, updateCountry);
 router.delete("/:id", validate, deleteCountry);
 
-module.exports = router;
+export default router;
