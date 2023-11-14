@@ -15,7 +15,7 @@ _This is a challenge for an interview._
 
 To setup this application, let's first clone the repository using the following command:
 
-`git clone https://github.com/macmartins/movie-list.git`
+`git clone https://github.com/macmartins/birthdates-advisor`
 
 ### **Server**
 
