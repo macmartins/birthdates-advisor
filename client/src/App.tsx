@@ -7,7 +7,7 @@ import { ThemeProvider, createTheme } from "@mui/material";
 import { ThemeProvider as StyledThemeProvider } from "styled-components";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { useEffect, useMemo } from "react";
-import { PASSWORD, PASSWORD_VALUE } from "./constants/auth";
+import { ROLES, ROLES_KEY } from "./constants/auth";
 import { useTranslation } from "react-i18next";
 import { muiLanguages } from "./utils/language";
 import { PRIMARY, SECONDARY } from "./constants/colors";
@@ -39,7 +39,8 @@ const App = () => {
   );
 
   useEffect(() => {
-    localStorage.setItem(PASSWORD, PASSWORD_VALUE);
+    // Imagine making a GET user roles and storing them in local storage (or store)
+    localStorage.setItem(ROLES_KEY, ROLES.join(","));
   }, []);
 
   return (
