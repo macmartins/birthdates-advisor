@@ -1,8 +1,7 @@
 import { Button, TextField } from "@mui/material";
 import { useFormikContext } from "formik";
 import { Schema } from "../../validation/validation-schema";
-import { BIRTHDAY, COUNTRY, NAME, SURNAME } from "../../constants/fields";
-import { PersonFormContainer } from "./styles";
+import { LegendContainer, PersonFormContainer } from "./styles";
 import { DatePicker } from "../DatePicker";
 import { useAppSelector } from "../../store";
 import {
@@ -15,12 +14,15 @@ import {
   selectBirthdays,
   selectSelectedBirthday,
 } from "../../store/birthdays/birthdaysSlice";
+import { useTranslation } from "react-i18next";
+import { muiLanguages } from "../../utils/language";
 
 const PersonForm = () => {
   const isCountriesLoading = useAppSelector(selectIsCountriesLoading);
   const countries = useAppSelector(selectCountries);
   const birthdays = useAppSelector(selectBirthdays);
   const selectedBirthdayID = useAppSelector(selectSelectedBirthday);
+  const { t, i18n } = useTranslation();
 
   const {
     values,
@@ -60,18 +62,25 @@ const PersonForm = () => {
   );
 
   const legend = useMemo(
-    () => `Hello ${selectedBirthday?.name} from ${
-      selectedBDCountry?.name.common
-    },
-          on ${selectedBirthdayDate.getDate()} of 
-          ${selectedBirthdayDate.toLocaleString("en-EN", {
+    () =>
+      t("legend", {
+        name: selectedBirthday?.name,
+        country: selectedBDCountry?.name.common,
+        day: selectedBirthdayDate.getDate(),
+        month: selectedBirthdayDate.toLocaleString(
+          muiLanguages[i18n.language as keyof typeof muiLanguages].packageName,
+          {
             month: "long",
-          })} 
-          you will have ${selectedBirthdayAge} years`,
+          }
+        ),
+        age: selectedBirthdayAge,
+      }),
     [
-      selectedBirthday,
+      t,
+      selectedBirthday?.name,
+      selectedBDCountry?.name.common,
       selectedBirthdayDate,
-      selectedBDCountry,
+      i18n.language,
       selectedBirthdayAge,
     ]
   );
@@ -90,7 +99,7 @@ const PersonForm = () => {
       <TextField
         id="name"
         name="name"
-        label={NAME}
+        label={t("name")}
         value={values.name}
         onChange={handleChange}
         onBlur={handleBlur}
@@ -100,7 +109,7 @@ const PersonForm = () => {
       <TextField
         id="surname"
         name="surname"
-        label={SURNAME}
+        label={t("surname")}
         value={values.surname}
         onChange={handleChange}
         onBlur={handleBlur}
@@ -111,7 +120,7 @@ const PersonForm = () => {
         name="country"
         value={{ label: "", value: values.country }}
         options={options}
-        label={COUNTRY}
+        label={t("country")}
         isTouched={touched.country}
         error={errors.country}
         handleBlur={handleBlur}
@@ -120,7 +129,7 @@ const PersonForm = () => {
       />
       <DatePicker
         name="birthday"
-        label={BIRTHDAY}
+        label={t("birthday")}
         value={values.birthday}
         isTouched={touched.birthday}
         error={errors.birthday}
@@ -129,9 +138,9 @@ const PersonForm = () => {
         handleBlur={handleBlur}
       />
       <Button variant="outlined" onClick={submitForm}>
-        Save
+        {t("save")}
       </Button>
-      {selectedBirthday ? <div>{legend}</div> : null}
+      {selectedBirthday ? <LegendContainer>{legend}</LegendContainer> : null}
     </PersonFormContainer>
   );
 };

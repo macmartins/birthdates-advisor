@@ -4,5 +4,8 @@ export const PersonFormContainer = styled("div")({
   display: "flex",
   flexDirection: "column",
   gap: 10,
-  flex: 1,
 });
+
+export const LegendContainer = styled("div")`
+  background-color: #deefd7;
+`;

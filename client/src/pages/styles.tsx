@@ -1,7 +1,12 @@
-import { Box } from "@mui/material";
+import { Box, Grid } from "@mui/material";
 import styled from "styled-components";
 
-export const BirthdaysContainer = styled(Box)`
+export const GridContainer = styled(Grid)`
   display: flex;
-  gap: 10px;
+  justify-content: center;
+`;
+
+export const LanguageContainer = styled(Box)`
+  display: flex;
+  justify-content: flex-end;
 `;

@@ -1,7 +1,7 @@
 import { useFormik, FormikProvider } from "formik";
 import { ValidationSchema } from "../validation/validation-schema";
 import PersonForm from "../components/PersonForm";
-import { Box, CircularProgress } from "@mui/material";
+import { CircularProgress, Grid } from "@mui/material";
 import Birthday, { BirthdayAPI } from "../types/Birthday";
 import { useAppDispatch, useAppSelector } from "../store";
 import {
@@ -14,7 +14,9 @@ import { useBirthdaysAPI } from "../services/birthday";
 import { useCountriesAPI } from "../services/country";
 import BirthdaysTable from "../components/BirthdaysTable";
 import { DEFAULT_BIRTHDAY } from "../constants/fields";
-import { BirthdaysContainer } from "./styles";
+import { GridContainer, LanguageContainer } from "./styles";
+import LanguageDropdown from "../components/LanguageDropdown";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   isRevisited?: boolean;
@@ -26,6 +28,7 @@ const Birthdays = ({ isRevisited }: Props) => {
   const isBirthdaysLoading = useAppSelector(selectIsBirthdaysLoading);
   const { getBirthdays, createBirthday } = useBirthdaysAPI();
   const { getCountries } = useCountriesAPI();
+  const { t } = useTranslation();
 
   const getClosestBirthday = useCallback(
     (newBirthday: BirthdayAPI) => {
@@ -62,7 +65,7 @@ const Birthdays = ({ isRevisited }: Props) => {
       country: "",
       birthday: new Date(DEFAULT_BIRTHDAY),
     },
-    validationSchema: ValidationSchema,
+    validationSchema: ValidationSchema(t),
     onSubmit: async (value: Birthday) => {
       const id = await createBirthday(value);
       const closestBirthday = getClosestBirthday({
@@ -83,17 +86,22 @@ const Birthdays = ({ isRevisited }: Props) => {
 
   return (
     <FormikProvider value={formik}>
+      <LanguageContainer>
+        <LanguageDropdown />
+      </LanguageContainer>
       <h2>Intive - FDV Exercise</h2>
-      <BirthdaysContainer>
-        <PersonForm />
-        <Box sx={{ flex: 2 }}>
+      <GridContainer container gap={2}>
+        <Grid item xs={12} sm={4}>
+          <PersonForm />
+        </Grid>
+        <Grid item xs={12} sm={6}>
           {isBirthdaysLoading ? (
             <CircularProgress />
           ) : (
             <BirthdaysTable rows={birthdays} />
           )}
-        </Box>
-      </BirthdaysContainer>
+        </Grid>
+      </GridContainer>
     </FormikProvider>
   );
 };

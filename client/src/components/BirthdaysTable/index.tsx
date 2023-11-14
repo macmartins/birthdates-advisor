@@ -12,6 +12,7 @@ import { selectCountries } from "../../store/countries/countrySlice";
 import { format } from "date-fns";
 import { setSelectedBirthday } from "../../store/birthdays/birthdaysSlice";
 import { BodyTableRow, TableContainer } from "./styles";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   rows: BirthdayAPI[];
@@ -20,14 +21,22 @@ interface Props {
 const BirthdaysTable = ({ rows }: Props) => {
   const dispatch = useAppDispatch();
   const countries = useAppSelector(selectCountries);
+  const { t } = useTranslation();
+
   return (
     <TableContainer component={Paper}>
-      <Table>
+      <Table stickyHeader>
         <TableHead>
           <TableRow>
-            <TableCell>Name</TableCell>
-            <TableCell>Country</TableCell>
-            <TableCell>Birthday</TableCell>
+            <TableCell>
+              <b>{t("name")}</b>
+            </TableCell>
+            <TableCell>
+              <b>{t("country")}</b>
+            </TableCell>
+            <TableCell>
+              <b>{t("birthday")}</b>
+            </TableCell>
           </TableRow>
         </TableHead>
         <TableBody sx={{ cursor: "pointer" }}>

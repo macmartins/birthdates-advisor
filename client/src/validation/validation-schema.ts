@@ -1,22 +1,16 @@
 import * as Yup from "yup";
-import {
-  INVALID_DATE,
-  MAX_DATE,
-  REQUIRED_BIRTHDAY,
-  REQUIRED_COUNTRY,
-  REQUIRED_NAME,
-  REQUIRED_SURNAME,
-} from "../constants/validation";
 import { InferType } from "yup";
+import { TFunction } from "i18next";
 
-export const ValidationSchema = Yup.object({
-  name: Yup.string().required(REQUIRED_NAME),
-  surname: Yup.string().required(REQUIRED_SURNAME),
-  country: Yup.string().required(REQUIRED_COUNTRY),
-  birthday: Yup.date()
-    .required(REQUIRED_BIRTHDAY)
-    .typeError(INVALID_DATE)
-    .max(new Date(), MAX_DATE),
-});
+export const ValidationSchema = (t: TFunction<"translation", undefined>) =>
+  Yup.object({
+    name: Yup.string().required(t("name") + t("required")),
+    surname: Yup.string().required(t("surname") + t("required")),
+    country: Yup.string().required(t("country") + t("required")),
+    birthday: Yup.date()
+      .required(t("birthday") + t("required"))
+      .typeError(t("invalidDate"))
+      .max(new Date(), t("maxDate")),
+  });
 
-export type Schema = InferType<typeof ValidationSchema>;
+export type Schema = InferType<ReturnType<typeof ValidationSchema>>;
