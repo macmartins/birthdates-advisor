@@ -1,12 +1,13 @@
 import mongoose, { HydratedDocument } from "mongoose";
 import Birthday, { IBirthday } from "../models/Birthday";
 import { insertBirthday, removeBirthday } from "../controllers/birthdays";
+import { describe, expect, it } from "@jest/globals";
 require("dotenv").config();
 
 const testBirthday: IBirthday = {
   name: "Test",
   surname: "Test",
-  birthday: new Date("21-10-1998"),
+  birthday: "1998-10-20T23:00:00.000+00:00",
   country: "6550d895c186814ae1c73083",
 };
 

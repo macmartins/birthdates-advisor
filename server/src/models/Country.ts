@@ -8,7 +8,10 @@ interface ICountry {
 
 const CountrySchema = new Schema<ICountry>({
   name: {
-    common: String,
+    common: {
+      type: String,
+      required: true,
+    },
   },
 });
 
